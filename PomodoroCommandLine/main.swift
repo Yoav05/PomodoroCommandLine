@@ -62,9 +62,9 @@ func printRemainingTime(remainingTime: TimeInterval) {
 
 func parseArguments() -> (interval: Double, totalIntervals: Int, restTime: Double)? {
     // Set default values
-    var interval = 0.2
-    var totalIntervals = 2
-    var restTime = 0.1
+    var interval = 50.0
+    var totalIntervals = 4
+    var restTime = 10.0
     
     // Get the command line arguments
     let args = CommandLine.arguments
