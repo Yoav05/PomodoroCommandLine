@@ -25,7 +25,6 @@
 /* Begin PBXFileReference section */
 		5363B91D29B0399B00156A31 /* PomodoroCommandLine */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PomodoroCommandLine; sourceTree = BUILT_PRODUCTS_DIR; };
 		5363B92029B0399B00156A31 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		53BB95B429B03D5E003E85E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Base; path = Base.lproj/sound.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,18 +57,9 @@
 		5363B91F29B0399B00156A31 /* PomodoroCommandLine */ = {
 			isa = PBXGroup;
 			children = (
-				53BB95B229B03C11003E85E8 /* Sound */,
 				5363B92029B0399B00156A31 /* main.swift */,
 			);
 			path = PomodoroCommandLine;
-			sourceTree = "<group>";
-		};
-		53BB95B229B03C11003E85E8 /* Sound */ = {
-			isa = PBXGroup;
-			children = (
-				53BB95B529B03D5E003E85E8 /* sound.mp3 */,
-			);
-			path = Sound;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,17 +125,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		53BB95B529B03D5E003E85E8 /* sound.mp3 */ = {
-			isa = PBXVariantGroup;
-			children = (
-				53BB95B429B03D5E003E85E8 /* Base */,
-			);
-			name = sound.mp3;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		5363B92229B0399B00156A31 /* Debug */ = {
