@@ -14,7 +14,6 @@ func startTimer(interval: TimeInterval, completedIntervals: Int, totalIntervals:
             timer.invalidate()
             print("\rInterval \(completedIntervals + 1) of \(totalIntervals) - Pomodoro complete!")
             if completedIntervals + 1 < totalIntervals {
-                print("Rest for \(restTime) minutes. Press enter to start rest.")
                 startRestingTimer(interval: restTime) {
                     startTimer(
                         interval: interval,
@@ -34,6 +33,7 @@ func startTimer(interval: TimeInterval, completedIntervals: Int, totalIntervals:
 }
 
 func startRestingTimer(interval: TimeInterval, completion: @escaping () -> Void) {
+    print("Rest for \(interval) minutes. Press enter to start rest.", terminator: "")
     let _ = readLine()
     let restingTime = interval * 60.0
     var remainingTime = restingTime
@@ -43,9 +43,10 @@ func startRestingTimer(interval: TimeInterval, completion: @escaping () -> Void)
         let seconds = Int(remainingTime) % 60
         let remainingTimeString = String(format: "%02d:%02d", minutes, seconds)
         print("\rResting - Time remaining: \(remainingTimeString)", terminator: "")
+        fflush(stdout)
         if remainingTime <= 0 {
             timer.invalidate()
-            print("Rest for \(interval) minutes. Press enter to start next interval.")
+            print("\nRest for \(interval) minutes. Press enter to start next interval.", terminator: "")
             let _ = readLine()
             completion()
         }
