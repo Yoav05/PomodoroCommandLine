@@ -9,7 +9,7 @@ func startTimer(interval: TimeInterval, completedIntervals: Int, totalIntervals:
         printRemainingTime(remainingTime: remainingTime)
         if remainingTime <= 0 {
             timer.invalidate()
-            print("\rInterval \(completedIntervals + 1)/\(totalIntervals) - complete!\n")
+            print("\u{001B}[32m\rInterval \(completedIntervals + 1)/\(totalIntervals) - completed!\u{001B}[0m\n")
             if completedIntervals + 1 < totalIntervals {
                 startRestingTimer(interval: restTime) {
                     startTimer(
@@ -20,12 +20,13 @@ func startTimer(interval: TimeInterval, completedIntervals: Int, totalIntervals:
                     )
                 }
             } else {
-                print("\nAll intervals complete!")
+                print("\u{001B}[32m\r\nAll intervals complete!\u{001B}[0m")
                 exit(0)
             }
         }
     }
-    print("Interval \(completedIntervals + 1)/\(totalIntervals)")
+    
+    print("\u{001B}[31mInterval \(completedIntervals + 1)/\(totalIntervals)\u{001B}[0m")
     RunLoop.current.add(timer, forMode: .common)
 }
 
@@ -51,13 +52,17 @@ func printRemainingTime(remainingTime: TimeInterval) {
     let minutes = Int(remainingTime) / 60
     let seconds = Int(remainingTime) % 60
     let remainingTimeString = String(format: "%02d:%02d", minutes, seconds)
-    print("\rTime remaining: \(remainingTimeString)", terminator: "")
+    if minutes == 0, seconds <= 3 {
+        print("\u{001B}[36m\rTime remaining: \(remainingTimeString)\u{001B}[0m\u{0007}", terminator: "")
+    } else {
+        print("\u{001B}[36m\rTime remaining: \(remainingTimeString)\u{001B}[0m", terminator: "")
+    }
     fflush(stdout)
 }
 
 func parseArguments() -> (interval: Double, totalIntervals: Int, restTime: Double)? {
     // Set default values
-    var interval = 0.1
+    var interval = 0.2
     var totalIntervals = 2
     var restTime = 0.1
     
@@ -92,6 +97,7 @@ func parseArguments() -> (interval: Double, totalIntervals: Int, restTime: Doubl
     // Return the parsed arguments
     return (interval, totalIntervals, restTime)
 }
+
 
 func main() {
     guard let (interval, totalIntervals, restTime) = parseArguments() else { return }
