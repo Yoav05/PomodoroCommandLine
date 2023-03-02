@@ -6,11 +6,7 @@ func startTimer(interval: TimeInterval, completedIntervals: Int, totalIntervals:
     var remainingTime = pomodoroDuration
     let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
         remainingTime -= 1.0
-        let minutes = Int(remainingTime) / 60
-        let seconds = Int(remainingTime) % 60
-        let remainingTimeString = String(format: "%02d:%02d", minutes, seconds)
-        print("\rTime remaining: \(remainingTimeString)", terminator: "")
-        fflush(stdout)
+        printRemainingTime(remainingTime: remainingTime)
         if remainingTime <= 0 {
             timer.invalidate()
             print("\rInterval \(completedIntervals + 1)/\(totalIntervals) - complete!\n")
@@ -40,11 +36,7 @@ func startRestingTimer(interval: TimeInterval, completion: @escaping () -> Void)
     var remainingTime = restingTime
     let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
         remainingTime -= 1.0
-        let minutes = Int(remainingTime) / 60
-        let seconds = Int(remainingTime) % 60
-        let remainingTimeString = String(format: "%02d:%02d", minutes, seconds)
-        print("\rTime remaining: \(remainingTimeString)", terminator: "")
-        fflush(stdout)
+        printRemainingTime(remainingTime: remainingTime)
         if remainingTime <= 0 {
             timer.invalidate()
             print("\rPress enter to end rest.", terminator: "")
@@ -53,6 +45,14 @@ func startRestingTimer(interval: TimeInterval, completion: @escaping () -> Void)
         }
     }
     RunLoop.current.add(timer, forMode: .common)
+}
+
+func printRemainingTime(remainingTime: TimeInterval) {
+    let minutes = Int(remainingTime) / 60
+    let seconds = Int(remainingTime) % 60
+    let remainingTimeString = String(format: "%02d:%02d", minutes, seconds)
+    print("\rTime remaining: \(remainingTimeString)", terminator: "")
+    fflush(stdout)
 }
 
 func parseArguments() -> (interval: Double, totalIntervals: Int, restTime: Double)? {
