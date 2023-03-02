@@ -13,8 +13,6 @@ func startTimer(interval: TimeInterval, completedIntervals: Int, totalIntervals:
         if remainingTime <= 0 {
             timer.invalidate()
             print("\rInterval \(completedIntervals + 1) of \(totalIntervals) - Pomodoro complete!")
-            let pomodoro = Pomodoro(duration: pomodoroDuration)
-            
             if completedIntervals + 1 < totalIntervals {
                 print("Rest for \(restTime) minutes. Press enter to start rest.")
                 startRestingTimer(interval: restTime) {
@@ -53,60 +51,6 @@ func startRestingTimer(interval: TimeInterval, completion: @escaping () -> Void)
         }
     }
     RunLoop.current.add(timer, forMode: .common)
-}
-
-
-func recordPomodoro(_ pomodoro: Pomodoro) {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-    let timestamp = dateFormatter.string(from: pomodoro.endTime)
-    let pomodoroRecord = "\(timestamp) - Pomodoro completed\n"
-    let filename = "pomodoros.txt"
-    if let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent(filename) {
-        do {
-            try pomodoroRecord.appendLineToURL(fileURL: fileURL)
-        } catch {
-            print("Error writing to file: \(error)")
-        }
-    } else {
-        print("Error creating file URL")
-    }
-}
-
-
-struct Pomodoro {
-    let duration: TimeInterval
-    let endTime: Date
-
-    init(duration: TimeInterval) {
-        self.duration = duration
-        self.endTime = Date().addingTimeInterval(duration)
-    }
-}
-
-extension String {
-    func appendLineToURL(fileURL: URL) throws {
-        try (self + "\n").appendToURL(fileURL: fileURL)
-    }
-
-    func appendToURL(fileURL: URL) throws {
-        let data = self.data(using: String.Encoding.utf8)!
-        try data.append(fileURL: fileURL)
-    }
-}
-
-extension Data {
-    func append(fileURL: URL) throws {
-        if let fileHandle = FileHandle(forWritingAtPath: fileURL.path) {
-            defer {
-                fileHandle.closeFile()
-            }
-            fileHandle.seekToEndOfFile()
-            fileHandle.write(self)
-        } else {
-            try write(to: fileURL, options: .atomic)
-        }
-    }
 }
 
 print("Enter the interval time in minutes:")
